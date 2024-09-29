@@ -2,8 +2,8 @@ import React from "react";
 import { Form } from "antd";
 import UrlForm from "./UrlForm";
 import InputSectionTabs from "./RequestDataForms/RequestDataTabs";
-import ResponseSection from "./ResponseSection/ResponseSection";
-const RequestForm = ({ key }) => {
+import ResponseTabs from "./ResponseSection/ResponseTabs";
+const RequestForm = ({ tab_key = 999 }) => {
   const [form] = Form.useForm();
   return (
     <Form
@@ -14,7 +14,7 @@ const RequestForm = ({ key }) => {
         span: 18,
       }}
       form={form}
-      name={"dynamic_form_complex" + key}
+      name={"dynamic_form_complex" + tab_key}
       style={
         {
           // maxWidth: 600,
@@ -31,7 +31,7 @@ const RequestForm = ({ key }) => {
     >
       <UrlForm form={form} />
       <InputSectionTabs />
-      <ResponseSection />
+      <ResponseTabs />
     </Form>
   );
 };

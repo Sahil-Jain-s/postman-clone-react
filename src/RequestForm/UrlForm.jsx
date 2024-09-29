@@ -3,12 +3,19 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, Select, Space, Typography } from "antd";
 import { REQUEST_METHODS } from "../constants";
 import { sendRequest } from "./sendRequest";
+import { convertObjectToKVobjectArray } from "../Utils/objectFunctions";
 const UrlForm = ({ form }) => {
   const onSend = async () => {
     const formData = form.getFieldsValue();
     sendRequest(formData).then((response) => {
       console.log("resp", response);
       form.setFieldValue("responseData", JSON.stringify(response.data));
+      form.setFieldValue(
+        "responseHeaders",
+        convertObjectToKVobjectArray(response.headers)
+      );
+      form.setFieldValue("responseStatusCode", response.status);
+      form.setFieldValue("responseStatusMessage", response.statusText);
     });
   };
   return (

@@ -4,7 +4,7 @@ import RequestForm from "../RequestForm/RequestForm";
 const initialItems = [
   {
     label: "Tab 1",
-    children: <RequestForm key={"1"} />,
+    children: <RequestForm tab_key={"1"} />,
     key: "1",
   },
 ];
@@ -16,13 +16,15 @@ const MainTabs = () => {
     setActiveKey(newActiveKey);
   };
   const add = () => {
-    const newActiveKey = `newTab${newTabIndex.current++}`;
+    const newActiveKey = `newTab${newTabIndex.current}`;
     const newPanes = [...items];
     newPanes.push({
-      label: "New Tab",
-      children: <RequestForm key={newActiveKey} />,
+      label: "New Tab " + (1 + newTabIndex.current),
+      children: <RequestForm tab_key={newActiveKey} />,
       key: newActiveKey,
     });
+    newTabIndex.current++;
+
     setItems(newPanes);
     setActiveKey(newActiveKey);
   };
