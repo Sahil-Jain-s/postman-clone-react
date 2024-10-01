@@ -1,33 +1,55 @@
-import React, { useRef, useState } from "react";
-import { Button, Tabs } from "antd";
+import React, {
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { Tabs } from "antd";
 import RequestForm from "../RequestForm/RequestForm";
+import { DEFAULT_HTTP_NEW_TAB_VALUES } from "../constants";
+import { v4 as uuidv4 } from "uuid";
+
 const initialItems = [
   {
     label: "Tab 1",
-    children: <RequestForm tab_key={"1"} />,
+    children: (
+      <RequestForm id={"1"} initialValues={DEFAULT_HTTP_NEW_TAB_VALUES} />
+    ),
     key: "1",
   },
 ];
-const MainTabs = () => {
+
+// Forwarding ref to allow parent to control the add function
+const MainTabs = forwardRef((props, ref) => {
   const [activeKey, setActiveKey] = useState(initialItems[0].key);
   const [items, setItems] = useState(initialItems);
-  const newTabIndex = useRef(0);
+
   const onChange = (newActiveKey) => {
     setActiveKey(newActiveKey);
   };
-  const add = () => {
-    const newActiveKey = `newTab${newTabIndex.current}`;
+
+  // Add tab function
+  const add = (
+    tabKey = uuidv4(),
+    label = "New Tab",
+    form_initial_values = DEFAULT_HTTP_NEW_TAB_VALUES
+  ) => {
     const newPanes = [...items];
+    const newTab = (
+      <RequestForm initialValues={form_initial_values} id={tabKey} />
+    );
+
     newPanes.push({
-      label: "New Tab " + (1 + newTabIndex.current),
-      children: <RequestForm tab_key={newActiveKey} />,
-      key: newActiveKey,
+      label: label,
+      children: newTab,
+      key: tabKey,
     });
-    newTabIndex.current++;
 
     setItems(newPanes);
-    setActiveKey(newActiveKey);
+    setActiveKey(tabKey);
   };
+
+  // Remove tab function
   const remove = (targetKey) => {
     let newActiveKey = activeKey;
     let lastIndex = -1;
@@ -47,6 +69,7 @@ const MainTabs = () => {
     setItems(newPanes);
     setActiveKey(newActiveKey);
   };
+
   const onEdit = (targetKey, action) => {
     if (action === "add") {
       add();
@@ -54,16 +77,21 @@ const MainTabs = () => {
       remove(targetKey);
     }
   };
+
+  // Expose the add function to the parent through ref
+  useImperativeHandle(ref, () => ({
+    addTab: (form_initial_values) => add(form_initial_values),
+  }));
+
   return (
     <Tabs
       type="editable-card"
-      more
-      tabBarExtraContent={<Button>rr</Button>}
       onChange={onChange}
       activeKey={activeKey}
       onEdit={onEdit}
       items={items}
     />
   );
-};
+});
+
 export default MainTabs;

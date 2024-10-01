@@ -7,3 +7,11 @@ export const REQUEST_METHODS = [
   "HEAD",
   "OPTIONS",
 ];
+
+export const DEFAULT_HTTP_NEW_TAB_VALUES = {
+  method: "get",
+  baseURL: "https://jsonplaceholder.typicode.com/posts",
+  params: [{ enabled: true }],
+  headers: [{ enabled: true }],
+  data: [{ enabled: true }],
+};

@@ -3,7 +3,7 @@ import { Form } from "antd";
 import UrlForm from "./UrlForm";
 import InputSectionTabs from "./RequestDataForms/RequestDataTabs";
 import ResponseTabs from "./ResponseSection/ResponseTabs";
-const RequestForm = ({ tab_key = 999 }) => {
+const RequestForm = ({ id, initialValues }) => {
   const [form] = Form.useForm();
   return (
     <Form
@@ -14,20 +14,14 @@ const RequestForm = ({ tab_key = 999 }) => {
         span: 18,
       }}
       form={form}
-      name={"dynamic_form_complex" + tab_key}
+      name={"dynamic_form_complex" + id}
       style={
         {
           // maxWidth: 600,
         }
       }
       autoComplete="off"
-      initialValues={{
-        method: "get",
-        baseURL: "https://jsonplaceholder.typicode.com/posts",
-        params: [{ enabled: true }],
-        headers: [{ enabled: true }],
-        data: [{ enabled: true }],
-      }}
+      initialValues={initialValues}
     >
       <UrlForm form={form} />
       <InputSectionTabs />
