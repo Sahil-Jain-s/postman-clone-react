@@ -14,7 +14,7 @@ const GenericKeyValueFormItem = ({ label, fieldName }) => {
             }}
           >
             {subFields.map((subField) => (
-              <Space key={subField.key}>
+              <Space key={subField.key} align="center">
                 <Form.Item
                   noStyle
                   name={[subField.name, "enabled"]}
@@ -36,6 +36,7 @@ const GenericKeyValueFormItem = ({ label, fieldName }) => {
               </Space>
             ))}
             <Button
+              style={{ width: "fit-content" }}
               type="dashed"
               onClick={() => subOpt.add({ enabled: true })}
               block

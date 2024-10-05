@@ -9,7 +9,7 @@ const UrlForm = ({ form }) => {
     const formData = form.getFieldsValue();
     sendRequest(formData).then((response) => {
       console.log("resp", response);
-      form.setFieldValue("responseData", JSON.stringify(response.data));
+      form.setFieldValue("responseData", response.data);
       form.setFieldValue(
         "responseHeaders",
         convertObjectToKVobjectArray(response.headers)
@@ -19,25 +19,25 @@ const UrlForm = ({ form }) => {
     });
   };
   return (
-    <Space>
-      <Form.Item name="method">
+    <Space.Compact block>
+      <Form.Item name="method" style={{ width: "15%" }}>
         <Select
-          popupMatchSelectWidth={true}
+          popupMatchSelectWidth={false}
           options={REQUEST_METHODS.map((i) => ({
             label: i,
             value: i.toLowerCase(),
           }))}
         />
       </Form.Item>
-      <Form.Item name="baseURL">
+      <Form.Item name="baseURL" style={{ width: "60%" }}>
         <Input />
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={{ width: "20%" }}>
         <Button htmlType="submit" onClick={onSend} type="primary">
           Send
         </Button>
       </Form.Item>
-    </Space>
+    </Space.Compact>
   );
 };
 export default UrlForm;

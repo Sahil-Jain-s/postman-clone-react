@@ -1,6 +1,6 @@
 import React from "react";
 import { Input, Form, Typography } from "antd";
-import GenericKeyValueFormItem from "../../../../postman-clone/src/components/GenericKeyValFormItem";
+import GenericKeyValueFormItem from "../../components/GenericKeyValFormItem";
 const { Paragraph, Text } = Typography;
 const ResponseHeaders = () => (
   <div className="desc">

@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "antd";
+import { Divider, Form, Input } from "antd";
 import UrlForm from "./UrlForm";
 import InputSectionTabs from "./RequestDataForms/RequestDataTabs";
 import ResponseTabs from "./ResponseSection/ResponseTabs";
@@ -7,12 +7,6 @@ const RequestForm = ({ id, initialValues }) => {
   const [form] = Form.useForm();
   return (
     <Form
-      labelCol={{
-        span: 6,
-      }}
-      wrapperCol={{
-        span: 18,
-      }}
       form={form}
       name={"dynamic_form_complex" + id}
       style={
@@ -23,8 +17,14 @@ const RequestForm = ({ id, initialValues }) => {
       autoComplete="off"
       initialValues={initialValues}
     >
+      {/* <Form.Item name="tab_title">
+        <Input />
+      </Form.Item> */}
+      <Divider></Divider>
       <UrlForm form={form} />
+      <Divider></Divider>
       <InputSectionTabs />
+      <Divider></Divider>
       <ResponseTabs />
     </Form>
   );
