@@ -1,28 +1,74 @@
 import React, { useState } from "react";
-import { HistoryOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
   DatePicker,
   Drawer,
-  Form,
+  Menu,
   Input,
   Layout,
   Row,
   Select,
   Space,
 } from "antd";
+import {
+  DesktopOutlined,
+  FolderOpenOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+  HistoryOutlined,
+} from "@ant-design/icons";
 import MainTabs from "./MainTabs";
 import History from "./History";
+import Collections from "./Collections";
 const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
-const HomePage = () => {
-  const [open, setOpen] = useState(false);
-  const showDrawer = () => {
-    setOpen(true);
+
+function getItem(label, key, icon, children) {
+  return {
+    key,
+    icon,
+    children,
+    label,
   };
-  const onClose = () => {
-    setOpen(false);
+}
+
+const HomePage = () => {
+  const [openHistory, setOpenHistory] = useState(false);
+  const showHistoryDrawer = () => {
+    setOpenHistory(true);
+  };
+  const onCloseHistoryDrawer = () => {
+    setOpenHistory(false);
+  };
+
+  const [openCollection, setOpenCollection] = useState(false);
+  const showCollectionDrawer = () => {
+    setOpenCollection(true);
+  };
+  const onCloseCollectionDrawer = () => {
+    setOpenCollection(false);
+  };
+  const items = [
+    getItem("Option 1", "1", <PieChartOutlined />),
+    getItem("Option 2", "2", <DesktopOutlined />),
+    getItem("Option 3", "sub1", <UserOutlined />, [
+      getItem("Tom", "3"),
+      getItem("Bill", "4"),
+      getItem("Alex", "5"),
+    ]),
+    getItem("Collections", 8, <FolderOpenOutlined />),
+    getItem("History", 9, <HistoryOutlined />),
+  ];
+
+  const onMenuClick = (e) => {
+    console.log("click ", e);
+    if (e.key == 9) {
+      showHistoryDrawer();
+    } else if (e.key == 8) {
+      showCollectionDrawer();
+    }
   };
   return (
     <>
@@ -31,14 +77,21 @@ const HomePage = () => {
           header
         </Header> */}
         <Layout>
-          <Sider width={200} breakpoint="lg" collapsedWidth="0">
-            <Button
-              type="primary"
-              onClick={showDrawer}
-              icon={<HistoryOutlined />}
-            >
-              Show History
-            </Button>{" "}
+          <Sider
+            width={200}
+            breakpoint="lg"
+            collapsedWidth="0"
+            collapsible
+            collapsed={false}
+          >
+            <Menu
+              theme="dark"
+              selectable={false}
+              // defaultSelectedKeys={["1"]}
+              mode="inline"
+              items={items}
+              onClick={onMenuClick}
+            />
           </Sider>
           <Content
             style={{
@@ -51,8 +104,8 @@ const HomePage = () => {
             <Drawer
               title="History"
               width={340}
-              onClose={onClose}
-              open={open}
+              onClose={onCloseHistoryDrawer}
+              open={openHistory}
               styles={{
                 body: {
                   paddingBottom: 80,
@@ -60,6 +113,19 @@ const HomePage = () => {
               }}
             >
               <History />
+            </Drawer>
+            <Drawer
+              title="Collections"
+              width={340}
+              onClose={onCloseCollectionDrawer}
+              open={openCollection}
+              styles={{
+                body: {
+                  paddingBottom: 80,
+                },
+              }}
+            >
+              <Collections />
             </Drawer>
             <MainTabs />
           </Content>

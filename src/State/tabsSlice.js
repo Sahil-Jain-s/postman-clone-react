@@ -26,7 +26,7 @@ const tabsSlice = createSlice({
       console.log(action);
       const newTabKey = uuidv4();
       const newTab = {
-        label: `New Tab`,
+        label: "New Tab",
         children: {
           initialValues: action.payload || DEFAULT_HTTP_NEW_TAB_VALUES,
           id: newTabKey,
@@ -59,8 +59,17 @@ const tabsSlice = createSlice({
       // Implement logic to save the current state of `state.items` to a collection
       console.log(`Saving tabs to collection: ${collectionName}`, state.items);
     },
+    // tabsSlice.js
+    updateTabTitle: (state, action) => {
+      const { key, title } = action.payload;
+      const tab = state.items.find((item) => item.key === key);
+      if (tab) {
+        tab.label = title;
+      }
+    },
   },
 });
 
-export const { addTab, removeTab, setActiveTab, saveTabs } = tabsSlice.actions;
+export const { addTab, removeTab, setActiveTab, saveTabs, updateTabTitle } =
+  tabsSlice.actions;
 export default tabsSlice.reducer;
